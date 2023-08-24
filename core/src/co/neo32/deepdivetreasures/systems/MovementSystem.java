@@ -2,10 +2,16 @@ package co.neo32.deepdivetreasures.systems;
 
 import co.neo32.deepdivetreasures.components.PositionComponent;
 import co.neo32.deepdivetreasures.components.VelocityComponent;
+import co.neo32.deepdivetreasures.entities.Chest;
 import co.neo32.deepdivetreasures.entities.Entity;
+import co.neo32.deepdivetreasures.entities.Shark;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
+
+import java.util.Iterator;
 
 public class MovementSystem {
 
@@ -21,7 +27,7 @@ public class MovementSystem {
     private float floatingFrequency = 0.5f;
     private Boolean stoped = true;
 
-    public void processEntity(Entity entity, float deltaTime, ParticleEffect bubbles) {
+    public void processEntity(Entity entity, float deltaTime, ParticleEffect bubbles, Group sharkGroup) {
 
         PositionComponent position = entity.position;
         Rectangle boundingRectangle = entity.boundingRectangle;
@@ -32,6 +38,11 @@ public class MovementSystem {
         boundingRectangle.x = position.x;
         boundingRectangle.y = position.y;
 
+        Iterator<Actor> iterator = sharkGroup.getChildren().iterator();
+        while (iterator.hasNext()) {
+            Shark shark = (Shark) iterator.next();
+            shark.update();
+        }
 
         bubbles.setPosition(entity.position.x + xBubbles, entity.position.y + 10);
 

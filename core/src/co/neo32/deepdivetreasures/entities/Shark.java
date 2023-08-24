@@ -6,15 +6,26 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class Shark extends Entity {
 
     private final Sprite[] frames;
     private float elapsedTime;
     private final float frameDuration;
+    private final float minX; // Minimum x value for movement
+    private final float maxX; // Maximum x value for movement
+    private boolean movingRight; // Whether the shark is currently moving right
 
-    public Shark(PositionComponent position, VelocityComponent velocity, Texture texture) {
+    public Shark(PositionComponent position, VelocityComponent velocity, Texture texture, float length) {
         super(position, velocity, texture);
+
+        // Set movement range
+        minX = position.x;
+        maxX = position.x + length;
+        velocity.x = 50.0f;
+        // Initialize other properties
+        movingRight = false; // Start moving to the left
 
         // Create Sprites
         int spriteWidth = 64;
@@ -30,12 +41,24 @@ public class Shark extends Entity {
     }
 
     public void update() {
-        // Update position based on velocity (optional)
-        position.x += velocity.x * Gdx.graphics.getDeltaTime();
-        position.y += velocity.y * Gdx.graphics.getDeltaTime();
+
+        if (movingRight) {
+            position.x += velocity.x * Gdx.graphics.getDeltaTime();
+            if (position.x >= maxX) {
+                movingRight = false;
+                flipSprite();
+            }
+        } else {
+            position.x -= velocity.x * Gdx.graphics.getDeltaTime();
+            if (position.x <= minX) {
+                movingRight = true;
+                flipSprite();
+            }
+        }
     }
 
     public void render(Batch batch) {
+
         elapsedTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
 
         // Determine the current frame based on elapsed time
@@ -44,5 +67,11 @@ public class Shark extends Entity {
 
         currentFrame.setPosition(position.x, position.y);
         currentFrame.draw(batch);
+    }
+
+    private void flipSprite() {
+        for (int i = 0; i < 2; i++) {
+            frames[i].flip(true, false);
+        }
     }
 }

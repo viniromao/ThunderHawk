@@ -22,7 +22,7 @@ public class MapRenderer {
         this.rows = map.height;
         this.subRectangles = new ArrayList<>();
 
-        int subdivisions = 2; // Number of rows and columns to subdivide into
+        int subdivisions = 4; // Number of rows and columns to subdivide into
         int smallTileSize = map.tileSize / subdivisions; // Size of the smaller rectangles
 
         for (int i = 0; i < rows; i++) {

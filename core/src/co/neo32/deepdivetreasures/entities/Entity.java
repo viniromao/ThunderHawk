@@ -6,8 +6,9 @@ import co.neo32.deepdivetreasures.components.VelocityComponent;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public abstract class Entity {
+public abstract class Entity extends Actor {
 
     public PositionComponent position;
     public VelocityComponent velocity;

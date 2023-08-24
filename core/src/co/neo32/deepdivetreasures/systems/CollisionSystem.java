@@ -1,7 +1,9 @@
 package co.neo32.deepdivetreasures.systems;
 
+import co.neo32.deepdivetreasures.DeepDiveTreasures;
 import co.neo32.deepdivetreasures.components.Map;
 import co.neo32.deepdivetreasures.entities.Chest;
+import co.neo32.deepdivetreasures.entities.Shark;
 import co.neo32.deepdivetreasures.entities.Submarine;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -11,13 +13,11 @@ import java.util.Iterator;
 public class CollisionSystem {
     private final Map map;
 
-    private Group chestGroup;
-
     public CollisionSystem(Map map) {
         this.map = map;
     }
 
-    public void handleCollision(Submarine player, Group chestGroup) {
+    public void handleCollision(Submarine player, Group chestGroup, Group sharkGroup, DeepDiveTreasures game) {
         float nextX = player.position.x + player.velocity.x / 8;
         float nextY = player.position.y + player.velocity.y / 8;
 
@@ -29,6 +29,17 @@ public class CollisionSystem {
             if (player.boundingRectangle.overlaps(chest.boundingRectangle)) {
                 iterator.remove();
                 chest.remove();
+            }
+        }
+
+
+        iterator = sharkGroup.getChildren().iterator();
+        while (iterator.hasNext()) {
+            Shark shark = (Shark) iterator.next();
+
+            if (player.boundingRectangle.overlaps(shark.boundingRectangle)) {
+//                game.create();
+                System.out.println("Game Over");
             }
         }
 

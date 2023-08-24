@@ -26,17 +26,16 @@ public class RenderingSystem {
 
     private final ShapeRenderer shapeRenderer;
 
-    private final Shark shark;
-
     private final Group chestGroup;
+    private final Group sharkGroup;
 
-    public RenderingSystem(SpriteBatch batch, MapRenderer mapRenderer, ShapeRenderer shapeRenderer, CollisionRenderer collisionRenderer, Shark shark, Group chestGroup) {
+    public RenderingSystem(SpriteBatch batch, MapRenderer mapRenderer, ShapeRenderer shapeRenderer, CollisionRenderer collisionRenderer, Group chestGroup, Group sharkGroup) {
         this.batch = batch;
         this.entities = new ArrayList<>();
         this.mapRenderer = mapRenderer;
         this.shapeRenderer = shapeRenderer;
-        this.shark = shark;
         this.chestGroup = chestGroup;
+        this.sharkGroup = sharkGroup;
     }
 
     public void addEntity(Entity entity) {
@@ -47,9 +46,12 @@ public class RenderingSystem {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        mapRenderer.render(shapeRenderer);
+
         batch.begin();
 
         particleEffect.draw(batch, deltaTime);
+
 
         // Draw sprites
         for (Entity entity : entities) {
@@ -57,20 +59,24 @@ public class RenderingSystem {
             Sprite sprite = entity.sprite;
 
             batch.draw(sprite, position.x, position.y);
-            shark.render(batch);
 
-            for (Actor actor : chestGroup.getChildren()) {
-                Chest chest = (Chest) actor; // Cast to the specific chest class
-                chest.render(batch);
-            }
 //            chest.render(batch);
 //            batch.end();
 //            collisionRenderer.debugRenderCollisionBox(entity,shapeRenderer);
 //            batch.begin();
         }
 
+        for (Actor value : sharkGroup.getChildren()) {
+            Shark shark = (Shark) value;
+            shark.render(batch);
+        }
+
+        for (Actor actor : chestGroup.getChildren()) {
+            Chest chest = (Chest) actor; // Cast to the specific chest class
+            chest.render(batch);
+        }
+
         batch.end(); // End the sprite batch
 
-        mapRenderer.render(shapeRenderer);
     }
 }

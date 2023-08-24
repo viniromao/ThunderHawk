@@ -56,17 +56,17 @@ public class DeepDiveTreasures extends ApplicationAdapter {
     private float time;
 
     private Group chestGroup;
+    private Group sharkGroup;
 
     @Override
     public void create() {
         chestGroup = new Group();
+        sharkGroup = new Group();
         shapeRenderer = new ShapeRenderer();
 
         for (int i = 0; i < 1; i++) {
-            PositionComponent position = new PositionComponent(250, 250); // Define the position
-            Texture chestTexture = new Texture(Gdx.files.internal("sprites/chest.png"));
-            chest = new Chest(new PositionComponent(250, 205), chestTexture);
-            chestGroup.addActor(chest); // Assuming Chest is an Actor or has an associated actor
+            chestGroup.addActor(new Chest(new PositionComponent(480, 450), new Texture(Gdx.files.internal("sprites/chest.png")))); // Assuming Chest is an Actor or has an associated actor
+            chestGroup.addActor(new Chest(new PositionComponent(230, 194), new Texture(Gdx.files.internal("sprites/chest.png")))); // Assuming Chest is an Actor or has an associated actor
         }
 
         map = new Map();
@@ -75,24 +75,28 @@ public class DeepDiveTreasures extends ApplicationAdapter {
         batch = new SpriteBatch();
         mapRenderer = new MapRenderer(map);
         textures = new TextureComponent();
-        Texture sharkTexture = new Texture(Gdx.files.internal("sprites/shark.png"));
-        PositionComponent position = new PositionComponent(100, 100);
-        VelocityComponent velocity = new VelocityComponent();
-        shark = new Shark(position, velocity, sharkTexture);
 
-        renderingSystem = new RenderingSystem(batch, mapRenderer, shapeRenderer, collisionRenderer, shark, chestGroup);
-        player = new Submarine(new PositionComponent(400.0f, 0.0f), new VelocityComponent(), textures.texture);
+        for (int i = 0; i < 1; i++) {
+            sharkGroup.addActor(new Shark(new PositionComponent(200, 100), new VelocityComponent(),  new Texture(Gdx.files.internal("sprites/shark.png")), 75.0f)); // Assuming Chest is an Actor or has an associated actor
+            sharkGroup.addActor(new Shark(new PositionComponent(250, 200), new VelocityComponent(),  new Texture(Gdx.files.internal("sprites/shark.png")), 50.0f)); // Assuming Chest is an Actor or has an associated actor
+            sharkGroup.addActor(new Shark(new PositionComponent(150, 500), new VelocityComponent(),  new Texture(Gdx.files.internal("sprites/shark.png")), 500)); // Assuming Chest is an Actor or has an associated actor
+            sharkGroup.addActor(new Shark(new PositionComponent(50, 300), new VelocityComponent(),  new Texture(Gdx.files.internal("sprites/shark.png")), 250.0f)); // Assuming Chest is an Actor or has an associated actor
+        }
+
+
+        renderingSystem = new RenderingSystem(batch, mapRenderer, shapeRenderer, collisionRenderer, chestGroup, sharkGroup);
+        player = new Submarine(new PositionComponent(200.0f, 0.0f), new VelocityComponent(), textures.texture);
         renderingSystem.addEntity(player);
         this.movementSystem = new MovementSystem();
         this.inputSystem = new InputSystem(player);
 
         Gdx.input.setInputProcessor(this.inputSystem);
-        shader = new ShaderProgram(Gdx.files.internal("shaders/waterVertex.glsl"), Gdx.files.internal("shaders/waterFragment.glsl"));
-        if (!shader.isCompiled()) {
-            throw new GdxRuntimeException("Shader compilation failed:\n" + shader.getLog());
-        }
+//        shader = new ShaderProgram(Gdx.files.internal("shaders/waterVertex.glsl"), Gdx.files.internal("shaders/waterFragment.glsl"));
+//        if (!shader.isCompiled()) {
+//            throw new GdxRuntimeException("Shader compilation failed:\n" + shader.getLog());
+//        }
 //        batch.setShader(shader);
-        System.out.println(shader.getLog());
+//        System.out.println(shader.getLog());
 
 
 //        shark.update();
@@ -121,8 +125,8 @@ public class DeepDiveTreasures extends ApplicationAdapter {
         shapeRenderer.setProjectionMatrix(camera.combined);
 
         inputSystem.update(deltaTime);
-        collisionSystem.handleCollision(player, chestGroup);
-        movementSystem.processEntity(player, deltaTime, effect);
+        collisionSystem.handleCollision(player, chestGroup, sharkGroup, this);
+        movementSystem.processEntity(player, deltaTime, effect, sharkGroup);
         renderingSystem.update(effect, deltaTime);
 
     }
