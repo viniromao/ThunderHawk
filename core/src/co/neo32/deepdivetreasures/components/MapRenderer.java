@@ -1,8 +1,9 @@
 package co.neo32.deepdivetreasures.components;
 
-import co.neo32.deepdivetreasures.components.Map;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class MapRenderer {
 
@@ -10,24 +11,71 @@ public class MapRenderer {
 
     private Integer rows;
     private Integer columns;
+    private ArrayList<SubRectangle> subRectangles;
+    private Random random = new Random();
+
+    private final Integer chance = 5;
 
     public MapRenderer(Map map) {
         this.map = map;
         this.columns = map.width;
-        this.rows =  map.height;
+        this.rows = map.height;
+        this.subRectangles = new ArrayList<>();
+
+        int subdivisions = 2; // Number of rows and columns to subdivide into
+        int smallTileSize = map.tileSize / subdivisions; // Size of the smaller rectangles
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                if (map.coordinates[i][j]) {
+                    for (int k = 0; k < subdivisions; k++) {
+                        for (int l = 0; l < subdivisions; l++) {
+
+                            if ((k == 0 && random.nextInt(chance) == 0) && !map.coordinates[i - 1][j]) {
+                                continue;
+                            }
+                            if ((k == subdivisions - 1 && random.nextInt(chance) == 0) && !map.coordinates[i + 1][j]) {
+                                continue;
+
+                            }
+                            if ((l == subdivisions - 1 && random.nextInt(chance) == 0) && !map.coordinates[i][j + 1]) {
+                                continue;
+                            }
+                            if ((l == 0 && random.nextInt(chance) == 0) && !map.coordinates[i][j - 1]) {
+                                continue;
+                            }
+
+                            SubRectangle subRectangle = new SubRectangle(
+                                    (map.tileSize * j) + (smallTileSize * l),
+                                    (map.tileSize * i) + (smallTileSize * k),
+                                    smallTileSize,
+                                    smallTileSize
+                            );
+                            subRectangles.add(subRectangle);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public void render(ShapeRenderer shapeRenderer) {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(1, 1, 1, 1); // White color
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                if(map.coordinates[i][j]) {
-                    shapeRenderer.rect(map.tileSize*j, map.tileSize*i, map.tileSize, map.tileSize); // Position (100, 100) and size 50x50
-                }
-            }
+        for (SubRectangle subRectangle : subRectangles) {
+            shapeRenderer.rect(subRectangle.x, subRectangle.y, subRectangle.width, subRectangle.height);
         }
         shapeRenderer.end();
+    }
 
+    private static class SubRectangle {
+        float x, y, width, height;
+
+        SubRectangle(float x, float y, float width, float height) {
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+        }
     }
 }

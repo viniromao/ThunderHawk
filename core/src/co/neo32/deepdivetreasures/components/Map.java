@@ -16,13 +16,21 @@ public class Map {
         // width is 2*viewport, that is equal 1280, if one tile is 8x8 the width length is 160
         coordinates = new boolean[][]{
                 {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
-                {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+                {false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, true, false, false, false},
+                {false, false, false, false, false, false, false, false, false, false, false, true, true, true, true, true, true, true, false},
                 {false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false},
-                {false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false},
+                {false, false, false, false, false, false, false, false, false, false, false, true, true, true, false, false, false, false, false},
+                {false, false, false, false, false, false, false, false, false, false, false, true, true, true, true, true, true, true, false},
+                {false, false, false, false, false, false, false, false, false, false, false, true, true, true, true, true, true, true, false},
+                {false, false, false, false, false, false, false, false, false, false, false, true, true, true, true, true, true, false, false},
+                {false, false, false, false, false, false, false, false, false, false, false, true, true, true, true, true, true, false, false},
+                {false, false, false, false, false, false, false, false, false, false, false, true, true, true, true, false, false, false, false},
+                {false, false, false, false, false, false, false, false, false, false, false, true, true, true, true, false, false, false, false},
+                {false, false, false, false, false, false, false, false, false, false, false, true, true, true, true, true, true, false, false},
+                {false, false, false, false, false, false, false, false, false, false, false, true, true, true, true, true, true, false, false},
+                {false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, true, false, false, false},
+                {false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, false},
                 {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
-                {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
-                {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
-                {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},                {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
 
         };
 

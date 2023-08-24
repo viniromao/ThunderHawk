@@ -5,6 +5,7 @@ import co.neo32.deepdivetreasures.components.VelocityComponent;
 import co.neo32.deepdivetreasures.entities.Entity;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 
 public class MovementSystem {
 
@@ -23,10 +24,14 @@ public class MovementSystem {
     public void processEntity(Entity entity, float deltaTime, ParticleEffect bubbles) {
 
         PositionComponent position = entity.position;
+        Rectangle boundingRectangle = entity.boundingRectangle;
         VelocityComponent velocity = entity.velocity;
 
         position.x += velocity.x * deltaTime;
         position.y += velocity.y * deltaTime;
+        boundingRectangle.x = position.x;
+        boundingRectangle.y = position.y;
+
 
         bubbles.setPosition(entity.position.x + xBubbles, entity.position.y + 10);
 

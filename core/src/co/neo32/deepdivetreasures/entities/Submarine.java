@@ -5,6 +5,8 @@ import co.neo32.deepdivetreasures.components.TextureComponent;
 import co.neo32.deepdivetreasures.components.VelocityComponent;
 import com.badlogic.gdx.graphics.Texture;
 
+import java.awt.*;
+
 public class Submarine extends Entity{
     public Submarine(PositionComponent position, VelocityComponent velocity, Texture texture) {
         super(position, velocity, texture);

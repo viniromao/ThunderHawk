@@ -1,17 +1,19 @@
 package co.neo32.deepdivetreasures.systems;
 
 import co.neo32.deepdivetreasures.components.CollisionRenderer;
-import co.neo32.deepdivetreasures.components.Map;
 import co.neo32.deepdivetreasures.components.MapRenderer;
 import co.neo32.deepdivetreasures.components.PositionComponent;
+import co.neo32.deepdivetreasures.entities.Chest;
 import co.neo32.deepdivetreasures.entities.Entity;
+import co.neo32.deepdivetreasures.entities.Shark;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +26,17 @@ public class RenderingSystem {
 
     private final ShapeRenderer shapeRenderer;
 
-    private final CollisionRenderer collisionRenderer;
+    private final Shark shark;
 
-    public RenderingSystem(SpriteBatch batch, MapRenderer mapRenderer, ShapeRenderer shapeRenderer, CollisionRenderer collisionRenderer) {
+    private final Group chestGroup;
+
+    public RenderingSystem(SpriteBatch batch, MapRenderer mapRenderer, ShapeRenderer shapeRenderer, CollisionRenderer collisionRenderer, Shark shark, Group chestGroup) {
         this.batch = batch;
         this.entities = new ArrayList<>();
         this.mapRenderer = mapRenderer;
         this.shapeRenderer = shapeRenderer;
-        this.collisionRenderer = collisionRenderer;
+        this.shark = shark;
+        this.chestGroup = chestGroup;
     }
 
     public void addEntity(Entity entity) {
@@ -52,10 +57,16 @@ public class RenderingSystem {
             Sprite sprite = entity.sprite;
 
             batch.draw(sprite, position.x, position.y);
-            batch.end();
+            shark.render(batch);
 
-            collisionRenderer.debugRenderCollisionBox(entity,shapeRenderer);
-            batch.begin();
+            for (Actor actor : chestGroup.getChildren()) {
+                Chest chest = (Chest) actor; // Cast to the specific chest class
+                chest.render(batch);
+            }
+//            chest.render(batch);
+//            batch.end();
+//            collisionRenderer.debugRenderCollisionBox(entity,shapeRenderer);
+//            batch.begin();
         }
 
         batch.end(); // End the sprite batch
