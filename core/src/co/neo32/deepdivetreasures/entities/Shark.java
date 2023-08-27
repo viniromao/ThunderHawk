@@ -1,11 +1,13 @@
 package co.neo32.deepdivetreasures.entities;
 
 import co.neo32.deepdivetreasures.components.PositionComponent;
+import co.neo32.deepdivetreasures.components.SizeComponent;
 import co.neo32.deepdivetreasures.components.VelocityComponent;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class Shark extends Entity {
@@ -28,7 +30,7 @@ public class Shark extends Entity {
         movingRight = false; // Start moving to the left
 
         // Create Sprites
-        int spriteWidth = 64;
+        int spriteWidth = 48;
         int spriteHeight = 32;
         frames = new Sprite[2];
         for (int i = 0; i < 2; i++) {
@@ -38,6 +40,11 @@ public class Shark extends Entity {
         // Initialize elapsed time and frame duration
         elapsedTime = 0f;
         frameDuration = 0.5f; // Duration for each frame in seconds
+        this.boundingRectangle = new Rectangle(position.x+5, position.y+5, (sprite.getWidth() /2)-5 , sprite.getHeight()-5 );
+        this.size = new SizeComponent((sprite.getWidth() /2)-5, sprite.getHeight()-5);
+
+
+
     }
 
     public void update() {

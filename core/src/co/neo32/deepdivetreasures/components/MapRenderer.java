@@ -31,17 +31,16 @@ public class MapRenderer {
                     for (int k = 0; k < subdivisions; k++) {
                         for (int l = 0; l < subdivisions; l++) {
 
-                            if ((k == 0 && random.nextInt(chance) == 0) && !map.coordinates[i - 1][j]) {
+                            if (i-1 >= 0 && (k == 0 && random.nextInt(chance) == 0) && !map.coordinates[i - 1][j]) {
                                 continue;
                             }
-                            if ((k == subdivisions - 1 && random.nextInt(chance) == 0) && !map.coordinates[i + 1][j]) {
-                                continue;
-
-                            }
-                            if ((l == subdivisions - 1 && random.nextInt(chance) == 0) && !map.coordinates[i][j + 1]) {
+                            if (i+1 < rows && (k == subdivisions - 1 && random.nextInt(chance) == 0) && !map.coordinates[i + 1][j]) {
                                 continue;
                             }
-                            if ((l == 0 && random.nextInt(chance) == 0) && !map.coordinates[i][j - 1]) {
+                            if (j+1 < columns && (l == subdivisions - 1 && random.nextInt(chance) == 0) && !map.coordinates[i][j + 1]) {
+                                continue;
+                            }
+                            if (j-1 >= 0 && (l == 0 && random.nextInt(chance) == 0) && !map.coordinates[i][j - 1]) {
                                 continue;
                             }
 
@@ -61,7 +60,7 @@ public class MapRenderer {
 
     public void render(ShapeRenderer shapeRenderer) {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(1, 1, 1, 1); // White color
+        shapeRenderer.setColor((float) 0, (float) 0.3, (float) 0.3, 1); // White color
         for (SubRectangle subRectangle : subRectangles) {
             shapeRenderer.rect(subRectangle.x, subRectangle.y, subRectangle.width, subRectangle.height);
         }

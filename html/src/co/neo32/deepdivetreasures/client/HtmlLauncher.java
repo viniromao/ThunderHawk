@@ -5,7 +5,6 @@ import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
 import co.neo32.deepdivetreasures.DeepDiveTreasures;
 import com.badlogic.gdx.backends.gwt.preloader.Preloader;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.Panel;
 

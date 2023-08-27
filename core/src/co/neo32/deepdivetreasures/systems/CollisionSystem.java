@@ -21,27 +21,30 @@ public class CollisionSystem {
         float nextX = player.position.x + player.velocity.x / 8;
         float nextY = player.position.y + player.velocity.y / 8;
 
+        if (!game.shalow) {
+            Iterator<Actor> iterator = chestGroup.getChildren().iterator();
+            while (iterator.hasNext()) {
+                Chest chest = (Chest) iterator.next();
 
-        Iterator<Actor> iterator = chestGroup.getChildren().iterator();
-        while (iterator.hasNext()) {
-            Chest chest = (Chest) iterator.next();
-
-            if (player.boundingRectangle.overlaps(chest.boundingRectangle)) {
-                iterator.remove();
-                chest.remove();
+                if (player.boundingRectangle.overlaps(chest.boundingRectangle)) {
+                    iterator.remove();
+                    game.money += 300;
+                    chest.remove();
+                }
             }
+
+
+            iterator = sharkGroup.getChildren().iterator();
+            while (iterator.hasNext()) {
+                Shark shark = (Shark) iterator.next();
+
+                if (player.boundingRectangle.overlaps(shark.boundingRectangle)) {
+                    game.gameOver();
+                }
+            }
+
         }
 
-
-        iterator = sharkGroup.getChildren().iterator();
-        while (iterator.hasNext()) {
-            Shark shark = (Shark) iterator.next();
-
-            if (player.boundingRectangle.overlaps(shark.boundingRectangle)) {
-//                game.create();
-                System.out.println("Game Over");
-            }
-        }
 
         // Check collisions in the X direction
         int startI = (int) (player.position.y / map.tileSize);

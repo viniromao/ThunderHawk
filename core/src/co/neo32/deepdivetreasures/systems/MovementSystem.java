@@ -22,10 +22,14 @@ public class MovementSystem {
     private Integer xBubbles = -8;
 
     private float floatingTime = 0;
-    private float floatingOriginalY = 0;
+    private float floatingOriginalY;
     private float floatingAmplitude = 2;
     private float floatingFrequency = 0.5f;
     private Boolean stoped = true;
+
+    public MovementSystem(float firstPositionY) {
+        this.floatingOriginalY = firstPositionY;
+    }
 
     public void processEntity(Entity entity, float deltaTime, ParticleEffect bubbles, Group sharkGroup) {
 

@@ -8,8 +8,7 @@ import co.neo32.deepdivetreasures.DeepDiveTreasures;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setForegroundFPS(60);
-		config.setWindowedMode(320 * 2, 224 * 2); //Sega Genesis window size doubled
+		config.setWindowedMode(320 * 2, 224 * 2);
 		config.setTitle("Deep Dive Treasures");
 		new Lwjgl3Application(new DeepDiveTreasures(), config);
 	}
