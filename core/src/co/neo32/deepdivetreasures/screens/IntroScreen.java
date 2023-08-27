@@ -1,4 +1,3 @@
-//package co.neo32.deepdivetreasures.scenes;
 package co.neo32.deepdivetreasures.screens;
 
 import co.neo32.deepdivetreasures.DeepDiveTreasures;
@@ -15,11 +14,11 @@ public class IntroScreen implements Screen {
     private float time;
     private float alpha;
     private boolean isFadingOut;
-
+    private float fadeSpeed = 2f; // Smaller value will make it slower
     DeepDiveTreasures game;
 
     public IntroScreen(DeepDiveTreasures game) {
-        image = new Texture("your_image_path.png");
+        image = new Texture("sprites/neo32Logo8Bit.png");
         batch = new SpriteBatch();
         time = 0;
         alpha = 0;
@@ -35,18 +34,17 @@ public class IntroScreen implements Screen {
     public void render(float delta) {
         time += delta;
 
-        // Fade in and fade out effect
         if (!isFadingOut) {
-            alpha += delta;
+            alpha += delta * fadeSpeed;
             if (alpha >= 1) {
                 alpha = 1;
                 isFadingOut = true;
             }
         } else {
-            alpha -= delta;
+            alpha -= delta * fadeSpeed;
             if (alpha <= 0) {
                 alpha = 0;
-                 game.goToShallowWater();
+                game.goToShallowWater();
             }
         }
 

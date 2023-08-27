@@ -9,6 +9,7 @@ import co.neo32.deepdivetreasures.entities.Chest;
 import co.neo32.deepdivetreasures.entities.Entity;
 import co.neo32.deepdivetreasures.entities.Shark;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -109,11 +110,7 @@ public class RenderingSystem {
             shark.debugCollision(shapeRenderer);
         }
         game.player.debugCollision(shapeRenderer);
-
-
-
-        batch.end(); // End the sprite batch
-
+        batch.end();
     }
 
     private void renderArrow(float time) {

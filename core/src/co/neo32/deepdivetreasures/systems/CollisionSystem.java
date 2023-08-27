@@ -28,7 +28,8 @@ public class CollisionSystem {
 
                 if (player.boundingRectangle.overlaps(chest.boundingRectangle)) {
                     iterator.remove();
-                    game.money += 300;
+                    game.money += 200;
+                    game.getChest.play();
                     chest.remove();
                 }
             }

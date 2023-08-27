@@ -82,16 +82,19 @@ public class ShallowWaterScreen implements Screen {
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.E) && game.money >= 100) {
                 game.oxygenGauge.setRatio();
+                game.buy.play();
                 game.money -= 100;
             }
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.F) && game.money >= 100) {
                 game.batteryGauge.setRatio();
+                game.buy.play();
                 game.money -= 100;
             }
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.Q) && game.money >= 100) {
                 game.pressureGauge.setRatio();
+                game.buy.play();
                 game.money -= 100;
             }
         }

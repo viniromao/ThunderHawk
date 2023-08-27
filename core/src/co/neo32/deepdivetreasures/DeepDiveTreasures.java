@@ -4,6 +4,7 @@ import co.neo32.deepdivetreasures.components.*;
 import co.neo32.deepdivetreasures.entities.*;
 import co.neo32.deepdivetreasures.screens.DeepWaterScreen;
 import co.neo32.deepdivetreasures.screens.GameOverScreen;
+import co.neo32.deepdivetreasures.screens.IntroScreen;
 import co.neo32.deepdivetreasures.screens.ShallowWaterScreen;
 import co.neo32.deepdivetreasures.systems.CollisionSystem;
 import co.neo32.deepdivetreasures.systems.InputSystem;
@@ -72,6 +73,8 @@ public class DeepDiveTreasures extends Game {
     public Music alarm;
     public Music underwater;
     public Music theme;
+    public Music buy;
+    public Music getChest;
 
 
     public Sprite store;
@@ -92,6 +95,10 @@ public class DeepDiveTreasures extends Game {
         alarm = Gdx.audio.newMusic(Gdx.files.internal("sfx/alarm.mp3"));
         underwater = Gdx.audio.newMusic(Gdx.files.internal("sfx/underwater.mp3"));
         theme = Gdx.audio.newMusic(Gdx.files.internal("sfx/theme.mp3"));
+        buy = Gdx.audio.newMusic(Gdx.files.internal("sfx/buy.mp3"));
+        getChest = Gdx.audio.newMusic(Gdx.files.internal("sfx/getChest.mp3"));
+        getChest.setVolume(.2f);
+        buy.setVolume(.5f);
         underwater.setVolume(.5f);
         underwater.setLooping(true);
         underwater.play();
@@ -181,7 +188,7 @@ public class DeepDiveTreasures extends Game {
 
         }
 
-        this.setScreen(new ShallowWaterScreen(this));
+        this.setScreen(new IntroScreen(this));
 
     }
 

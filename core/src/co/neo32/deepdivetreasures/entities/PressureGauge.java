@@ -33,11 +33,11 @@ public class PressureGauge extends Gauge {
         angle = 360f * pressurePercentage / 100f;
 
         // Check and update the danger flag based on pressure levels.
-        if (!danger && pressurePercentage > 85) {
+        if (!danger && pressurePercentage > 70) {
             super.setDanger(true);
         }
 
-        if (danger && pressurePercentage < 85) {
+        if (danger && pressurePercentage < 70) {
             super.setDanger(false);
         }
 
