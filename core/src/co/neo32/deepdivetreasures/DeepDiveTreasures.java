@@ -78,6 +78,13 @@ public class DeepDiveTreasures extends Game {
 
 
     public Sprite store;
+    public Sprite black;
+    public Sprite palm;
+    public Sprite palm2;
+    public Sprite palm3;
+    public Sprite palm4;
+    public Sprite palm5;
+    public Sprite palm6;
 
     public float maxPressure;
 
@@ -91,23 +98,28 @@ public class DeepDiveTreasures extends Game {
     public void create() {
 
         store = new Sprite(new Texture(Gdx.files.internal("sprites/store.png")));
+        black = new Sprite(new Texture(Gdx.files.internal("sprites/black.png")));
+        palm = new Sprite(new Texture(Gdx.files.internal("sprites/palm.png")));
+        palm2 = new Sprite(new Texture(Gdx.files.internal("sprites/palm.png")));
+        palm3 = new Sprite(new Texture(Gdx.files.internal("sprites/palm.png")));
+        palm4 = new Sprite(new Texture(Gdx.files.internal("sprites/palm.png")));
+        palm5 = new Sprite(new Texture(Gdx.files.internal("sprites/palm.png")));
+        palm6 = new Sprite(new Texture(Gdx.files.internal("sprites/palm.png")));
+
+        palm.setPosition(800, 222);
+        palm2.setPosition(740, 222);
+        palm2.flip(true, false);
+        palm3.setPosition(700, 222);
+        palm4.setPosition(670, 222);
+        palm5.setPosition(800, 222);
+        palm6.setPosition(800, 222);
 
         alarm = Gdx.audio.newMusic(Gdx.files.internal("sfx/alarm.mp3"));
         underwater = Gdx.audio.newMusic(Gdx.files.internal("sfx/underwater.mp3"));
         theme = Gdx.audio.newMusic(Gdx.files.internal("sfx/theme.mp3"));
         buy = Gdx.audio.newMusic(Gdx.files.internal("sfx/buy.mp3"));
         getChest = Gdx.audio.newMusic(Gdx.files.internal("sfx/getChest.mp3"));
-        getChest.setVolume(.2f);
-        buy.setVolume(.5f);
-        underwater.setVolume(.5f);
-        underwater.setLooping(true);
-        underwater.play();
 
-        theme.setVolume(.1f);
-        theme.setLooping(true);
-        theme.play();
-        alarm.setVolume(.3f);
-        alarm.setLooping(true);
 
         batteryGauge = new BatteryGauge(50, 50, 30, alarm);
         pressureGauge = new PressureGauge(50, 150, 30, alarm);
@@ -188,8 +200,19 @@ public class DeepDiveTreasures extends Game {
 
         }
 
-        this.setScreen(new IntroScreen(this));
+        this.setScreen(new ShallowWaterScreen(this));
 
+        getChest.setVolume(.2f);
+        buy.setVolume(.5f);
+        underwater.setVolume(.5f);
+        underwater.setLooping(true);
+        underwater.play();
+
+        theme.setVolume(.1f);
+        theme.setLooping(true);
+        theme.play();
+        alarm.setVolume(.3f);
+        alarm.setLooping(true);
     }
 
     public void restart() {

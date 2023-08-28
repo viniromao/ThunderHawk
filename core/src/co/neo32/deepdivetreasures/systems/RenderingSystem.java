@@ -9,12 +9,12 @@ import co.neo32.deepdivetreasures.entities.Chest;
 import co.neo32.deepdivetreasures.entities.Entity;
 import co.neo32.deepdivetreasures.entities.Shark;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 
@@ -63,15 +63,15 @@ public class RenderingSystem {
         if(game.shalow) {
             Gdx.gl.glClearColor(0.7f, 0.9f, 1f, 1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-            float oscillatingHeight = baselineHeight + amplitude * (float)Math.sin(time);
+            float oscillatingHeight = baselineHeight + amplitude * (float) Math.sin(time);
 
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            shapeRenderer.setColor(0, 0.1f, 0.2f, 1);
+            shapeRenderer.setColor(0, 0.9f, 1f, 1);
             shapeRenderer.rect(0, 0, 1280, oscillatingHeight);
             shapeRenderer.end();
             renderArrow(time);
         } else {
-            Gdx.gl.glClearColor(0, 0.1f, 0.2f, 1);
+            Gdx.gl.glClearColor(0, 0.9f, 1f, 1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         }
 
@@ -92,7 +92,7 @@ public class RenderingSystem {
 //            batch.begin();
         }
 
-        if(!game.shalow) {
+        if (!game.shalow) {
             for (Actor value : sharkGroup.getChildren()) {
                 Shark shark = (Shark) value;
                 shark.render(batch);
@@ -110,6 +110,24 @@ public class RenderingSystem {
             shark.debugCollision(shapeRenderer);
         }
         game.player.debugCollision(shapeRenderer);
+        game.palm.draw(batch);
+        game.palm2.draw(batch);
+        game.palm3.draw(batch);
+        game.palm4.draw(batch);
+        game.palm5.draw(batch);
+        game.palm6.draw(batch);
+
+        if (!game.shalow) {
+            float min = 600;
+            float max = 1000;
+            float normalizedAlpha = (game.player.position.y - min) / (max - min);
+            normalizedAlpha = MathUtils.clamp(normalizedAlpha, 0, 1);
+            normalizedAlpha = 1 - normalizedAlpha;
+            game.black.setAlpha(normalizedAlpha);
+            game.black.setPosition(game.player.position.x - 485, game.player.position.y - 490);
+            game.black.draw(batch);
+        }
+
         batch.end();
     }
 

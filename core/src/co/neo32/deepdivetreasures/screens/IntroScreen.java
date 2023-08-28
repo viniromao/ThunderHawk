@@ -14,7 +14,7 @@ public class IntroScreen implements Screen {
     private float time;
     private float alpha;
     private boolean isFadingOut;
-    private float fadeSpeed = 2f; // Smaller value will make it slower
+    private float fadeSpeed = .5f; // Smaller value will make it slower
     DeepDiveTreasures game;
 
     public IntroScreen(DeepDiveTreasures game) {

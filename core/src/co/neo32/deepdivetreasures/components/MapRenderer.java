@@ -60,7 +60,7 @@ public class MapRenderer {
 
     public void render(ShapeRenderer shapeRenderer) {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor((float) 0, (float) 0.3, (float) 0.3, 1); // White color
+        shapeRenderer.setColor((float) 0, (float) 0.7, (float) 0.3, 1); // White color
         for (SubRectangle subRectangle : subRectangles) {
             shapeRenderer.rect(subRectangle.x, subRectangle.y, subRectangle.width, subRectangle.height);
         }
