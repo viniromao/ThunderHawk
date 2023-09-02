@@ -40,7 +40,8 @@ public class DeepWaterScreen implements Screen {
     @Override
     public void show() {
         game.renderingSystem.renderSea = false;
-
+        game.shore.pause();
+        game.underwater.play();
     }
 
     @Override
@@ -65,7 +66,7 @@ public class DeepWaterScreen implements Screen {
         game.shapeRenderer.setProjectionMatrix(game.camera.combined);
         game.inputSystem.update(deltaTime);
         game.collisionSystem.handleCollision(game.player, game.chestGroup, game.sharkGroup, game);
-        game.movementSystem.processEntity(game.player, deltaTime, game.effect, game.sharkGroup);
+        game.movementSystem.processEntity(game.player, deltaTime, game.effect, game.sharkGroup, game);
 
         game.renderingSystem.update(game.effect, deltaTime, game.time);
         if (game.player.velocity.y != 0 || game.player.velocity.x != 0)

@@ -41,6 +41,8 @@ public class ShallowWaterScreen implements Screen {
 
     @Override
     public void show() {
+        game.shore.play();
+        game.underwater.pause();
     }
 
     @Override
@@ -63,7 +65,7 @@ public class ShallowWaterScreen implements Screen {
         game.shapeRenderer.setProjectionMatrix(game.camera.combined);
         game.inputSystem.update(deltaTime);
         game.collisionSystem.handleCollision(game.player, game.chestGroup, game.sharkGroup, game);
-        game.movementSystem.processEntity(game.player, deltaTime, game.effect, game.sharkGroup);
+        game.movementSystem.processEntity(game.player, deltaTime, game.effect, game.sharkGroup, game);
 
         if(game.player.position.y > 177) {
             game.player.position.y = 177;

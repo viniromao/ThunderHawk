@@ -7,11 +7,11 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class GameOverScreen implements Screen {
+public class MainMenuScreen implements Screen {
     private DeepDiveTreasures game;
     float time = 0;
 
-    public GameOverScreen(DeepDiveTreasures game) {
+    public MainMenuScreen(DeepDiveTreasures game) {
         this.game = game;
         game.batch = new SpriteBatch();
     }
@@ -30,18 +30,19 @@ public class GameOverScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.batch.begin();
+        game.intro.draw(game.batch);
 
-        game.font100.draw(game.batch, "Game Over", 138, 300);
+        game.font70White.draw(game.batch, "Deep Dive\nTreasures", 190, 425);
 
         game.fontWhite.getColor().a = alpha;
-        game.fontWhite.draw(game.batch, "Click ESC to Restart", 205, 200);
+        game.fontWhite.draw(game.batch, "PRESS E TO START", 210, 100);
 
         game.fontWhite.getColor().a = 1;
 
         game.batch.end();
 
         // Check for ESC key press
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
             game.setScreen(new ShallowWaterScreen(game));
             game.gameOver = false;
             game.restart();

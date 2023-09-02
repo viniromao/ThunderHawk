@@ -5,9 +5,7 @@ import co.neo32.deepdivetreasures.components.CollisionRenderer;
 import co.neo32.deepdivetreasures.components.Gauge;
 import co.neo32.deepdivetreasures.components.MapRenderer;
 import co.neo32.deepdivetreasures.components.PositionComponent;
-import co.neo32.deepdivetreasures.entities.Chest;
-import co.neo32.deepdivetreasures.entities.Entity;
-import co.neo32.deepdivetreasures.entities.Shark;
+import co.neo32.deepdivetreasures.entities.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -93,15 +91,26 @@ public class RenderingSystem {
         }
 
         if (!game.shalow) {
+            for (Actor actor : game.seagrassGroup.getChildren()) {
+                Seagrass seagrass = (Seagrass) actor; // Cast to the specific chest class
+                seagrass.render(batch);
+            }
+            for (Actor actor : game.seagrassGroup2.getChildren()) {
+                Seagrass2 seagrass = (Seagrass2) actor; // Cast to the specific chest class
+                seagrass.render(batch);
+            }
             for (Actor value : sharkGroup.getChildren()) {
                 Shark shark = (Shark) value;
                 shark.render(batch);
             }
+            game.siphoon.draw(batch);
 
             for (Actor actor : chestGroup.getChildren()) {
                 Chest chest = (Chest) actor; // Cast to the specific chest class
                 chest.render(batch);
             }
+
+
         }
 
         for (Actor actor : game.sharkGroup.getChildren()) {
@@ -109,6 +118,15 @@ public class RenderingSystem {
 
             shark.debugCollision(shapeRenderer);
         }
+        game.sun.draw(batch);
+
+        game.cloud.draw(batch);
+        game.cloud2.draw(batch);
+        game.cloud3.draw(batch);
+        game.cloud4.draw(batch);
+        game.cloud5.draw(batch);
+        game.cloud6.draw(batch);
+
         game.player.debugCollision(shapeRenderer);
         game.palm.draw(batch);
         game.palm2.draw(batch);
@@ -116,6 +134,8 @@ public class RenderingSystem {
         game.palm4.draw(batch);
         game.palm5.draw(batch);
         game.palm6.draw(batch);
+
+
 
         if (!game.shalow) {
             float min = 600;
@@ -126,6 +146,10 @@ public class RenderingSystem {
             game.black.setAlpha(normalizedAlpha);
             game.black.setPosition(game.player.position.x - 485, game.player.position.y - 490);
             game.black.draw(batch);
+
+            game.effect2.draw(batch, deltaTime);
+
+
         }
 
         batch.end();

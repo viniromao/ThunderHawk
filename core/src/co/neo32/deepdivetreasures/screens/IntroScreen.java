@@ -44,7 +44,7 @@ public class IntroScreen implements Screen {
             alpha -= delta * fadeSpeed;
             if (alpha <= 0) {
                 alpha = 0;
-                game.goToShallowWater();
+                game.goToMainScreen();
             }
         }
 

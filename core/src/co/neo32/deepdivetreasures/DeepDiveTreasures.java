@@ -2,10 +2,7 @@ package co.neo32.deepdivetreasures;
 
 import co.neo32.deepdivetreasures.components.*;
 import co.neo32.deepdivetreasures.entities.*;
-import co.neo32.deepdivetreasures.screens.DeepWaterScreen;
-import co.neo32.deepdivetreasures.screens.GameOverScreen;
-import co.neo32.deepdivetreasures.screens.IntroScreen;
-import co.neo32.deepdivetreasures.screens.ShallowWaterScreen;
+import co.neo32.deepdivetreasures.screens.*;
 import co.neo32.deepdivetreasures.systems.CollisionSystem;
 import co.neo32.deepdivetreasures.systems.InputSystem;
 import co.neo32.deepdivetreasures.systems.MovementSystem;
@@ -35,6 +32,7 @@ public class DeepDiveTreasures extends Game {
 
     public RenderingSystem renderingSystem;
     public ParticleEffect effect = new ParticleEffect();
+    public ParticleEffect effect2 = new ParticleEffect();
 
 
     public MapRenderer mapRenderer;
@@ -59,7 +57,10 @@ public class DeepDiveTreasures extends Game {
     public Group sharkGroup;
 
     public BitmapFont font;
+    public BitmapFont fontWhite;
     public BitmapFont font100;
+    public BitmapFont font70White;
+    public BitmapFont font70Blue;
 
     public BatteryGauge batteryGauge;
     public PressureGauge pressureGauge;
@@ -85,6 +86,9 @@ public class DeepDiveTreasures extends Game {
     public Sprite palm4;
     public Sprite palm5;
     public Sprite palm6;
+    public Sprite cloud;
+    public Sprite cloud2;
+    public Sprite cloud3;
 
     public float maxPressure;
 
@@ -93,9 +97,21 @@ public class DeepDiveTreasures extends Game {
     public float maxOxygen;
 
     public Integer money = 300;
+    public Sprite sun;
+    public Sprite cloud4;
+    public Sprite cloud5;
+    public Sprite cloud6;
+    public Music shore;
+    public Sprite[] seagrass;
+
+    public Group seagrassGroup;
+    public Group seagrassGroup2;
+    public Sprite siphoon;
+    public Sprite intro;
 
     @Override
     public void create() {
+
 
         store = new Sprite(new Texture(Gdx.files.internal("sprites/store.png")));
         black = new Sprite(new Texture(Gdx.files.internal("sprites/black.png")));
@@ -105,6 +121,36 @@ public class DeepDiveTreasures extends Game {
         palm4 = new Sprite(new Texture(Gdx.files.internal("sprites/palm.png")));
         palm5 = new Sprite(new Texture(Gdx.files.internal("sprites/palm.png")));
         palm6 = new Sprite(new Texture(Gdx.files.internal("sprites/palm.png")));
+
+        cloud = new Sprite(new Texture(Gdx.files.internal("sprites/cloud.png")));
+        cloud2 = new Sprite(new Texture(Gdx.files.internal("sprites/cloud2.png")));
+        cloud3 = new Sprite(new Texture(Gdx.files.internal("sprites/cloud3.png")));
+        cloud4 = new Sprite(new Texture(Gdx.files.internal("sprites/cloud.png")));
+        cloud5 = new Sprite(new Texture(Gdx.files.internal("sprites/cloud2.png")));
+        cloud6 = new Sprite(new Texture(Gdx.files.internal("sprites/cloud3.png")));
+
+        intro = new Sprite(new Texture(Gdx.files.internal("sprites/intro.png")));
+        intro.setPosition(0, -40);
+
+        siphoon = new Sprite(new Texture(Gdx.files.internal("sprites/siphoon.png")));
+        siphoon.setPosition(510, 830);
+
+
+        this.initSeagrasses();
+        this.initSeagrasses2();
+
+
+        sun = new Sprite(new Texture(Gdx.files.internal("sprites/sun.png")));
+        sun.setPosition(650, 250);
+
+
+        cloud.setPosition(200, 280);
+        cloud2.setPosition(400, 230);
+        cloud3.setPosition(700, 350);
+
+        cloud4.setPosition(0, 280);
+        cloud5.setPosition(-200, 230);
+        cloud6.setPosition(-600, 350);
 
         palm.setPosition(800, 222);
         palm2.setPosition(740, 222);
@@ -116,11 +162,12 @@ public class DeepDiveTreasures extends Game {
 
         alarm = Gdx.audio.newMusic(Gdx.files.internal("sfx/alarm.mp3"));
         underwater = Gdx.audio.newMusic(Gdx.files.internal("sfx/underwater.mp3"));
+        shore = Gdx.audio.newMusic(Gdx.files.internal("sfx/shore.mp3"));
         theme = Gdx.audio.newMusic(Gdx.files.internal("sfx/theme.mp3"));
         buy = Gdx.audio.newMusic(Gdx.files.internal("sfx/buy.mp3"));
         getChest = Gdx.audio.newMusic(Gdx.files.internal("sfx/getChest.mp3"));
 
-
+        shore.setVolume(.3f);
         batteryGauge = new BatteryGauge(50, 50, 30, alarm);
         pressureGauge = new PressureGauge(50, 150, 30, alarm);
         oxygenGauge = new OxygenGauge(50, 250, 30, alarm);
@@ -134,25 +181,19 @@ public class DeepDiveTreasures extends Game {
         pressureGauge = new PressureGauge(50, 150, 30, alarm);
         oxygenGauge = new OxygenGauge(50, 250, 30, alarm);
         font = new BitmapFont(Gdx.files.internal("fonts/font.fnt"), false);
+        fontWhite = new BitmapFont(Gdx.files.internal("fonts/fontWhite.fnt"), false);
         font100 = new BitmapFont(Gdx.files.internal("fonts/font100.fnt"), false);
+        font70White = new BitmapFont(Gdx.files.internal("fonts/font70White.fnt"), false);
+        font70Blue = new BitmapFont(Gdx.files.internal("fonts/font70Blue.fnt"), false);
 
         textures = new TextureComponent();
 
         Gdx.input.setInputProcessor(this.inputSystem);
-//        shader = new ShaderProgram(Gdx.files.internal("shaders/waterVertex.glsl"), Gdx.files.internal("shaders/waterFragment.glsl"));
-//        if (!shader.isCompiled()) {
-//            throw new GdxRuntimeException("Shader compilation failed:\n" + shader.getLog());
-//        }
-//        batch.setShader(shader);
-//        System.out.println(shader.getLog());
-
-
-//        shark.update();
-
 
         TextureAtlas particleAtlas; //<-load some atlas with your particle assets in
         effect.load(Gdx.files.internal("bubbleParticles.p"), Gdx.files.internal("sprites"));
-
+        effect2.load(Gdx.files.internal("bubbleParticles.p"), Gdx.files.internal("sprites"));
+        effect2.setPosition(510, 860);
         camera = new OrthographicCamera();
         viewport = new FitViewport(320 * 2, 224 * 2, camera); // Set your desired window size here
         viewport.apply();
@@ -200,13 +241,13 @@ public class DeepDiveTreasures extends Game {
 
         }
 
-        this.setScreen(new ShallowWaterScreen(this));
+        this.setScreen(new IntroScreen(this));
 
         getChest.setVolume(.2f);
         buy.setVolume(.5f);
         underwater.setVolume(.5f);
         underwater.setLooping(true);
-        underwater.play();
+        shore.setLooping(true);
 
         theme.setVolume(.1f);
         theme.setLooping(true);
@@ -335,6 +376,10 @@ public class DeepDiveTreasures extends Game {
         this.setScreen(new ShallowWaterScreen(this));
     }
 
+    public void goToMainScreen() {
+        this.setScreen(new MainMenuScreen(this));
+    }
+
 
     @Override
     public void resize(int width, int height) {
@@ -345,5 +390,24 @@ public class DeepDiveTreasures extends Game {
     @Override
     public void dispose() {
         batch.dispose();
+    }
+
+    private void initSeagrasses() {
+        seagrassGroup = new Group();
+        this.seagrassGroup.addActor(new Seagrass(new PositionComponent(500, 830)));
+        this.seagrassGroup.addActor(new Seagrass(new PositionComponent(550, 894)));
+        this.seagrassGroup.addActor(new Seagrass(new PositionComponent(700, 990)));
+        this.seagrassGroup.addActor(new Seagrass(new PositionComponent(380, 800)));
+        this.seagrassGroup.addActor(new Seagrass(new PositionComponent(600, 800)));
+    }
+
+    private void initSeagrasses2() {
+        seagrassGroup2 = new Group();
+        this.seagrassGroup2.addActor(new Seagrass2(new PositionComponent(570, 894)));
+        this.seagrassGroup2.addActor(new Seagrass2(new PositionComponent(850, 733)));
+        this.seagrassGroup2.addActor(new Seagrass2(new PositionComponent(700, 990)));
+        this.seagrassGroup2.addActor(new Seagrass2(new PositionComponent(350, 830)));
+        this.seagrassGroup2.addActor(new Seagrass2(new PositionComponent(380, 800)));
+        this.seagrassGroup2.addActor(new Seagrass2(new PositionComponent(600, 800)));
     }
 }

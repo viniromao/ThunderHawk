@@ -1,5 +1,6 @@
 package co.neo32.deepdivetreasures.systems;
 
+import co.neo32.deepdivetreasures.DeepDiveTreasures;
 import co.neo32.deepdivetreasures.components.PositionComponent;
 import co.neo32.deepdivetreasures.components.VelocityComponent;
 import co.neo32.deepdivetreasures.entities.Chest;
@@ -25,13 +26,15 @@ public class MovementSystem {
     private float floatingOriginalY;
     private float floatingAmplitude = 2;
     private float floatingFrequency = 0.5f;
+
+    private float speed = 2f;
     private Boolean stoped = true;
 
     public MovementSystem(float firstPositionY) {
         this.floatingOriginalY = firstPositionY;
     }
 
-    public void processEntity(Entity entity, float deltaTime, ParticleEffect bubbles, Group sharkGroup) {
+    public void processEntity(Entity entity, float deltaTime, ParticleEffect bubbles, Group sharkGroup, DeepDiveTreasures game) {
 
         PositionComponent position = entity.position;
         Rectangle boundingRectangle = entity.boundingRectangle;
@@ -41,6 +44,13 @@ public class MovementSystem {
         position.y += velocity.y * deltaTime;
         boundingRectangle.x = position.x;
         boundingRectangle.y = position.y;
+
+        game.cloud.setPosition(game.cloud.getX() + speed * deltaTime, game.cloud.getY());
+        game.cloud2.setPosition(game.cloud2.getX()  + speed * deltaTime, game.cloud2.getY());
+        game.cloud3.setPosition(game.cloud3.getX()  + speed* 2 * deltaTime, game.cloud3.getY());
+        game.cloud4.setPosition(game.cloud4.getX() + speed * deltaTime, game.cloud4.getY());
+        game.cloud5.setPosition(game.cloud5.getX()  + speed * deltaTime, game.cloud5.getY());
+        game.cloud6.setPosition(game.cloud6.getX()  + speed* 2 * deltaTime, game.cloud6.getY());
 
         Iterator<Actor> iterator = sharkGroup.getChildren().iterator();
         while (iterator.hasNext()) {
